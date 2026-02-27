@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Top 50 Cities in Europe</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; }
+        .legend { background: white; padding: 10px; font-size: 14px; }
+        .legend .circle { width: 10px; height: 10px; border-radius: 50%; float: left; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+<h1>Top 50 Cities in Europe</h1>
+<div id="map"></div>
+<div class="legend">
+    <div class="circle" style="background: blue;"></div> Size according to population
+</div>
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([50, 10], 4); // Center of Europe
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+    // 50 Most Populated Cities in Europe (Example Data)
+    var cities = [
+        {"name": "Istanbul", "location": [41.0082, 28.9784], "population": 15519267},
+        {"name": "Moscow", "location": [55.7558, 37.6173], "population": 11920000},
+        // Add additional cities here...
+    ];
+
+    cities.forEach(function(city) {
+        var radius = city.population / 500000; // Adjust scaling factor to suit visualization
+        L.circle(city.location, {
+            color: 'blue',
+            fillColor: '#30f',
+            fillOpacity: 0.5,
+            radius: radius
+        }).addTo(map).bindPopup(city.name + ': ' + city.population);
+    });
+
+    // Add scale control
+    L.control.scale().addTo(map);
+    // North arrow (Not in Leaflet by default; could use a library or custom control)
+</script>
+
+</body>
+</html>
